@@ -4,58 +4,48 @@
   <meta charset="UTF-8">
   <title>Eternal Tribe Terminal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
   <style>
     :root{
       --bg:#070a0d; --fg:#d8ffe1; --muted:#87f4a1;
       --accent:#39ff14; --accent2:#00e7ff; --border:rgba(255,255,255,.12);
-      --card:rgba(255,255,255,.04);
-      --glow:0 0 10px rgba(57,255,20,.75), 0 0 30px rgba(57,255,20,.35);
+      --card:rgba(255,255,255,.04); --glow:0 0 10px rgba(57,255,20,.75), 0 0 30px rgba(57,255,20,.35);
     }
     *{box-sizing:border-box} html,body{height:100%}
     body{
-      margin:0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
-      color:var(--fg);
-      background: radial-gradient(1200px 900px at 80% -20%, rgba(0,231,255,.12), transparent 45%),
-                  radial-gradient(1100px 800px at 15% 120%, rgba(57,255,20,.12), transparent 45%),
-                  var(--bg);
+      margin:0; font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace; color:var(--fg);
+      background:radial-gradient(1200px 900px at 80% -20%, rgba(0,231,255,.12), transparent 45%),
+                 radial-gradient(1100px 800px at 15% 120%, rgba(57,255,20,.12), transparent 45%), var(--bg);
       overflow-x:hidden;
     }
-    /* animated pulse */
     .pulse{position:fixed; inset:-20%; pointer-events:none; filter:blur(40px); opacity:.25; animation:pulse 9s ease-in-out infinite}
     .p1{background:radial-gradient(circle at 20% 30%, #00e7ff33, transparent 40%)}
-    .p2{background:radial-gradient(circle at 80% 70%, #39ff1426, transparent 40%); animation-delay: -4.5s}
+    .p2{background:radial-gradient(circle at 80% 70%, #39ff1426, transparent 40%); animation-delay:-4.5s}
     @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-
     main{max-width:980px; margin:42px auto; padding:18px}
     header{display:flex; align-items:center; gap:14px; margin-bottom:12px}
-    .logo{width:38px; height:38px; border-radius:10px; background:#0c1418 url('') center/cover no-repeat; box-shadow:var(--glow)}
+    .logo{width:42px; height:42px; border-radius:10px; background:#0c1418 url('/assets/logo.png') center/cover no-repeat; box-shadow:var(--glow)}
     h1{margin:0; font-size:28px; color:var(--accent); text-shadow:var(--glow); letter-spacing:.06em}
     h2{margin:2px 0 0; font-size:14px; color:var(--muted); letter-spacing:.08em}
-
     .hero{margin:16px 0 20px; padding:14px; border:1px solid var(--border); border-radius:12px; background:var(--card)}
     .type{min-height:28px; font-size:18px}
     .blink{display:inline-block; width:10px; height:1.1em; background:var(--accent); animation:blink 1.1s steps(1) infinite; vertical-align:-2px}
     @keyframes blink{50%{opacity:.2}}
-
     h3{margin:18px 0 10px; font-size:16px; color:var(--accent2)}
     .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .card{border:1px solid var(--border); background:var(--card); border-radius:12px; padding:14px}
     .card h4{margin:2px 0 8px; font-size:15px; color:#fff}
-
     .btn{display:inline-block; padding:10px 14px; border-radius:10px; border:1px solid rgba(57,255,20,.5);
          color:var(--fg); text-decoration:none; transition:.2s transform,.2s box-shadow; margin-right:8px; margin-top:8px}
     .btn:hover{transform:translateY(-1px); box-shadow:var(--glow)}
     .btn.outline{border-color:rgba(255,255,255,.25)}
     .muted{color:var(--muted); font-size:12px}
     .notice{border-left:3px solid var(--accent2); padding:8px 10px; margin-top:8px; background:var(--card); border-radius:6px}
-
     .codebar{display:flex; gap:8px; margin:10px 0 8px}
     input[type=text]{flex:1; padding:10px; border-radius:10px; border:1px solid var(--border); background:rgba(255,255,255,.03); color:var(--fg)}
     .unlock{min-height:18px; color:#ffb84d}
-
     .hidden{display:none}
     footer{margin-top:24px; color:var(--muted); display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .price{font-size:12px; color:#ffb84d}
   </style>
 </head>
 <body>
@@ -63,7 +53,7 @@
 
   <main>
     <header>
-      <div id="logo" class="logo"></div>
+      <div class="logo"></div>
       <div>
         <h1>Eternal Tribe // Terminal</h1>
         <h2>Access Granted • Node ET-01</h2>
@@ -72,59 +62,57 @@
 
     <section class="hero">
       <div id="type" class="type"></div><span class="blink"></span>
-      <div class="notice">Use your <strong>access code</strong> to unlock chambers. After you support (CashApp/PayPal/Crypto), DM your receipt and we’ll send your code.</div>
+      <div class="notice">Pay anything on PayPal → DM receipt → I send your <strong>access code</strong> → unlock your chamber below.</div>
       <div class="codebar">
-        <input id="codeInput" type="text" placeholder="Enter code e.g. SPARK-001">
+        <input id="codeInput" type="text" placeholder="Enter code e.g. SPARK-001 / FLAME-001 / WARRIOR-001">
         <a class="btn" id="codeBtn">Unlock</a>
       </div>
       <div id="unlockMsg" class="unlock"></div>
     </section>
 
-    <!-- CHAMBERS (locked until code) -->
-    <section id="spark" class="card hidden">
-      <h3>SPARK Chamber</h3>
-      <div class="grid">
-        <div class="card">
-          <h4>Community Chat</h4>
-          <div class="muted">Meet the tribe & get early drops.</div>
-          <a id="sparkLink" class="btn" target="_blank" rel="noopener">Enter Spark</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="flame" class="card hidden">
-      <h3>FLAME Chamber</h3>
-      <div class="grid">
-        <div class="card">
-          <h4>Exclusive Scrolls</h4>
-          <div class="muted">PDFs / audio notes / BTS.</div>
-          <a id="flameLink" class="btn" target="_blank" rel="noopener">Open Flame Drops</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="warrior" class="card hidden">
-      <h3>WARRIOR Chamber</h3>
-      <div class="grid">
-        <div class="card">
-          <h4>VIP Lounge + 1:1</h4>
-          <div class="muted">Priority access & booking.</div>
-          <a id="warriorLink" class="btn" target="_blank" rel="noopener">Enter Warrior</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- PUBLIC SUPPORT + LOGS -->
+    <!-- ACCESS -->
     <section>
-      <h3>Support Direct</h3>
-      <div class="card">
-        <a class="btn outline" id="cashappLink" target="_blank" rel="noopener">Cash App</a>
-        <a class="btn outline" id="paypalLink"  target="_blank" rel="noopener">PayPal</a>
-        <a class="btn outline" id="cryptoLink"   target="_blank" rel="noopener">Crypto</a>
-        <div class="muted" style="margin-top:6px">After support, DM receipt for an access code.</div>
+      <h3>Access Levels</h3>
+      <div class="grid">
+        <div class="card">
+          <h4>SPARK <span class="price">Free</span></h4>
+          <div class="muted">Public Discord + announcements</div>
+          <a class="btn" id="sparkPublic" target="_blank" rel="noopener">Join Spark (Free)</a>
+        </div>
+        <div class="card">
+          <h4>FLAME <span class="price">Pay what you can</span></h4>
+          <div class="muted">PDF scrolls, monthly picture pack, Flame chat</div>
+          <a class="btn outline" id="flamePay" target="_blank" rel="noopener">Pay on PayPal</a>
+          <a class="btn" id="flameLink" target="_blank" rel="noopener">Open Flame (needs code)</a>
+        </div>
+        <div class="card">
+          <h4>WARRIOR <span class="price">Pay what you can</span></h4>
+          <div class="muted">VIP Discord + live session access</div>
+          <a class="btn outline" id="warriorPay" target="_blank" rel="noopener">Pay on PayPal</a>
+          <a class="btn" id="warriorLink" target="_blank" rel="noopener">Enter Warrior (needs code)</a>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:6px">
+        * Manual codes for now. Later we’ll swap to Stripe + auto Discord roles.
       </div>
     </section>
 
+    <!-- LOCKED CHAMBERS -->
+    <section id="flameCard" class="card hidden">
+      <h3>FLAME Chamber</h3>
+      <div class="muted">Exclusive Drops (PDFs, audio, pictures).</div>
+      <a class="btn" id="flameDrops" target="_blank">Go to Drops</a>
+      <a class="btn" id="flameChat"  target="_blank">Join Flame Chat</a>
+    </section>
+
+    <section id="warriorCard" class="card hidden">
+      <h3>WARRIOR Chamber</h3>
+      <div class="muted">VIP Discord + Live session access.</div>
+      <a class="btn" id="warriorVIP" target="_blank">Join VIP Discord</a>
+      <a class="btn" id="warriorLive" target="_blank">Live Session Room</a>
+    </section>
+
+    <!-- LOGS -->
     <section>
       <h3>System Logs</h3>
       <div class="card">
@@ -140,53 +128,40 @@
   </main>
 
   <script>
-    // ====== SETTINGS (edit these) ======
-    const LOGO_URL = "https://i.imgur.com/CE8q0rG.png"; // put your logo URL here
-    const LINKS = {
-      spark:  "https://t.me/yourSparkChat",
-      flame:  "#", // Google Drive folder/page for drops
-      warrior:"https://t.me/yourWarriorChat",
-      cash:   "https://cash.app/$YourCashTag",
-      paypal: "https://paypal.me/YourName",
-      crypto: "#",
-      scroll: "#",
-      pack:   "#"
-    };
-    // Access codes (UPPERCASE). Map code -> chamber id.
-    const CODES = {
-      "SPARK-001":  "spark",
-      "FLAME-001":  "flame",
-      "WARRIOR-001":"warrior"
-    };
-    // ====== END SETTINGS ======
-
-    // logo + links
-    const setHref = (id,u)=>{ const a=document.getElementById(id); if(a) a.href=u; };
-    document.getElementById("logo").style.backgroundImage = `url('${LOGO_URL}')`;
-    setHref("sparkLink", LINKS.spark);
-    setHref("flameLink", LINKS.flame);
-    setHref("warriorLink", LINKS.warrior);
-    setHref("cashappLink", LINKS.cash);
-    setHref("paypalLink", LINKS.paypal);
-    setHref("cryptoLink", LINKS.crypto);
-    setHref("scrollLink", LINKS.scroll);
-    setHref("packLink", LINKS.pack);
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // typing effect
-    const line = "Welcome, warrior. This is the Anointed System. Use your access code to unlock chambers.";
+    // typing
+    const line="Welcome, warrior. Give what you can. Receive what you need. Use your code to unlock chambers.";
     let i=0; const el=document.getElementById("type");
-    (function type(){ el.textContent=line.slice(0,++i); if(i<line.length){ setTimeout(type,22);} })();
+    (function t(){el.textContent=line.slice(0,++i); if(i<line.length) setTimeout(t,22);} )();
 
-    // access-code gate
-    const show = id => document.getElementById(id)?.classList.remove("hidden");
-    document.getElementById("codeBtn").addEventListener("click", ()=>{
-      const raw = (document.getElementById("codeInput").value||"").trim().toUpperCase();
-      const target = CODES[raw];
-      const msg = document.getElementById("unlockMsg");
-      ["spark","flame","warrior"].forEach(id=>document.getElementById(id).classList.add("hidden"));
-      if(target){ show(target); msg.textContent = "Access unlocked: " + target.toUpperCase(); }
-      else{ msg.textContent = "Invalid or expired code. DM us to verify."; }
+    // LINKS (updated)
+    const DISCORD_MAIN = "https://discord.gg/bmSmXdXU";     // Spark / public
+    const DISCORD_WARRIOR = "https://discord.gg/bmSmXdXU";  // use same invite for now; later: VIP link/role
+    const LINKS = {
+      sparkPublic: DISCORD_MAIN,
+      flamePay:    "https://paypal.me/theeternaltribe",     // any amount
+      warriorPay:  "https://paypal.me/theeternaltribe",     // any amount
+      flameDrops:  "drops.html",
+      flameChat:   DISCORD_MAIN,                             // can swap to private channel later
+      warriorVIP:  DISCORD_WARRIOR,
+      warriorLive: "#",                                      // later: Discord Stage/Voice/Zoom link
+      flameLink:   "drops.html",
+      warriorLink: DISCORD_WARRIOR,
+      scroll:      "drops.html",
+      pack:        "drops.html"
+    };
+    const set=(id,u)=>{const a=document.getElementById(id); if(a) a.href=u;};
+    Object.entries(LINKS).forEach(([k,v])=>set(k,v));
+    document.getElementById("year").textContent=new Date().getFullYear();
+
+    // code gate (change codes anytime)
+    const CODES={"FLAME-001":"flameCard","WARRIOR-001":"warriorCard"};
+    const show=id=>document.getElementById(id)?.classList.remove("hidden");
+    document.getElementById("codeBtn").addEventListener("click",()=>{
+      const raw=(document.getElementById("codeInput").value||"").trim().toUpperCase();
+      const target=CODES[raw]; const msg=document.getElementById("unlockMsg");
+      ["flameCard","warriorCard"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+      if(target){ show(target); msg.textContent="Access unlocked: "+raw; }
+      else{ msg.textContent="Invalid or expired code. DM receipt for a new code."; }
     });
   </script>
 </body>
