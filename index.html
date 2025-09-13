@@ -62,9 +62,9 @@
 
     <section class="hero">
       <div id="type" class="type"></div><span class="blink"></span>
-      <div class="notice">Pay anything on PayPal → DM receipt → I send your <strong>access code</strong> → unlock your chamber below.</div>
+      <div class="notice">Support on PayPal → DM receipt → I send your <strong>access code</strong> → unlock your chamber below.</div>
       <div class="codebar">
-        <input id="codeInput" type="text" placeholder="Enter code e.g. SPARK-001 / FLAME-001 / WARRIOR-001">
+        <input id="codeInput" type="text" placeholder="Enter code e.g. FLAME-001 / WARRIOR-001">
         <a class="btn" id="codeBtn">Unlock</a>
       </div>
       <div id="unlockMsg" class="unlock"></div>
@@ -82,13 +82,13 @@
         <div class="card">
           <h4>FLAME <span class="price">Pay what you can</span></h4>
           <div class="muted">PDF scrolls, monthly picture pack, Flame chat</div>
-          <a class="btn outline" id="flamePay" target="_blank" rel="noopener">Pay on PayPal</a>
+          <a class="btn outline" id="flamePay" target="_blank" rel="noopener">Support via PayPal</a>
           <a class="btn" id="flameLink" target="_blank" rel="noopener">Open Flame (needs code)</a>
         </div>
         <div class="card">
           <h4>WARRIOR <span class="price">Pay what you can</span></h4>
           <div class="muted">VIP Discord + live session access</div>
-          <a class="btn outline" id="warriorPay" target="_blank" rel="noopener">Pay on PayPal</a>
+          <a class="btn outline" id="warriorPay" target="_blank" rel="noopener">Support via PayPal</a>
           <a class="btn" id="warriorLink" target="_blank" rel="noopener">Enter Warrior (needs code)</a>
         </div>
       </div>
@@ -116,8 +116,8 @@
     <section>
       <h3>System Logs</h3>
       <div class="card">
-        <div class="muted">[ LOG 010 ] Sophia’s Flame Restored — <a id="scrollLink" target="_blank">Download PDF</a></div>
-        <div class="muted">[ LOG 009 ] Fifth Element Flyer Pack — <a id="packLink" target="_blank">Download ZIP</a></div>
+        <div class="muted">[ LOG 011 ] The Body Is the Right Sign — <a href="drops.html" target="_blank">Open in Drops</a></div>
+        <div class="muted">[ LOG 010 ] Sophia’s Flame Restored — <a id="scrollLink" target="_blank">Open in Drops</a></div>
       </div>
     </section>
 
@@ -133,23 +133,20 @@
     let i=0; const el=document.getElementById("type");
     (function t(){el.textContent=line.slice(0,++i); if(i<line.length) setTimeout(t,22);} )();
 
-    // LINKS (updated)
-    const DISCORD_MAIN = "https://discord.gg/bmSmXdXU";     // Spark / public
-    const DISCORD_WARRIOR = "https://discord.gg/bmSmXdXU";  // use same invite for now; later: VIP link/role
+    // LINKS
+    const DISCORD_MAIN = "https://discord.gg/SCUywcb4se";      // your new invite
+    const PAYPAL = "https://www.paypal.com/paypalme/theeternaltribe";
     const LINKS = {
       sparkPublic: DISCORD_MAIN,
-      flamePay:    "https://paypal.me/theeternaltribe",     // any amount
-      warriorPay:  "https://paypal.me/theeternaltribe",     // any amount
-      flameDrops:  "drops.html",
-      flameChat:   DISCORD_MAIN,                             // can swap to private channel later
-      warriorVIP:  DISCORD_WARRIOR,
-      warriorLive: "#",                                      // later: Discord Stage/Voice/Zoom link
-      flameLink:   "drops.html",
-      warriorLink: DISCORD_WARRIOR,
-      scroll:      "drops.html",
-      pack:        "drops.html"
+      flamePay: PAYPAL,
+      warriorPay: PAYPAL,
+      flameDrops: "drops.html",
+      flameChat:  DISCORD_MAIN,        // later: private channel invite
+      warriorVIP: DISCORD_MAIN,        // later: VIP-only invite
+      warriorLive:"#",                 // add Stage/Voice/Zoom link when live
+      flameLink: "drops.html"
     };
-    const set=(id,u)=>{const a=document.getElementById(id); if(a) a.href=u;};
+    const set=(id,u)=>{ const a=document.getElementById(id); if(a) a.href=u; };
     Object.entries(LINKS).forEach(([k,v])=>set(k,v));
     document.getElementById("year").textContent=new Date().getFullYear();
 
