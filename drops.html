@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eternal Tribe // Drops</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    :root{
+      --bg:#070a0d; --fg:#d8ffe1; --muted:#87f4a1; --accent:#39ff14;
+      --border:rgba(255,255,255,.12); --card:rgba(255,255,255,.04);
+      --glow:0 0 10px rgba(57,255,20,.75), 0 0 30px rgba(57,255,20,.35);
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0; font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace; color:var(--fg);
+         background:radial-gradient(1000px 700px at 85% -15%, rgba(0,231,255,.12), transparent 45%),
+                    radial-gradient(900px 700px at 10% 120%, rgba(57,255,20,.12), transparent 45%), #070a0d;}
+    main{max-width:980px; margin:42px auto; padding:18px}
+    a{color:#7ef8a2; text-decoration:none} a:hover{color:#39ff14; text-shadow:var(--glow)}
+    h1{margin:0 0 6px; color:#39ff14; text-shadow:var(--glow); letter-spacing:.06em; font-size:28px}
+    .muted{color:var(--muted); font-size:12px}
+    .card{border:1px solid var(--border); background:var(--card); border-radius:12px; padding:14px; margin:12px 0}
+    .row{display:flex; justify-content:space-between; gap:12px; align-items:center; padding:10px 0; border-bottom:1px dashed rgba(255,255,255,.12)}
+    .row:last-child{border-bottom:0}
+    .btn{padding:8px 12px; border:1px solid rgba(57,255,20,.5); border-radius:10px}
+    .top{display:flex; justify-content:space-between; align-items:center; gap:10px}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top">
+      <h1>System Drops</h1>
+      <a class="btn" href="./index.html">⟵ Back to Terminal</a>
+    </div>
+    <div class="muted">Exclusive scrolls, packs & audio. New logs appear here first.</div>
+
+    <div class="card">
+      <!-- DUPLICATE these .row blocks for each new drop -->
+      <div class="row">
+        <div>
+          <div><strong>[ LOG 010 ] Sophia’s Flame Restored</strong></div>
+          <div class="muted">PDF • 2.3 MB • 2025-09-13</div>
+        </div>
+        <a class="btn" href="./drops/scroll-01.pdf" target="_blank">Download PDF</a>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>[ LOG 009 ] Fifth Element Flyer Pack</strong></div>
+          <div class="muted">ZIP • 48 MB</div>
+        </div>
+        <a class="btn" href="./drops/flyer-pack.zip" target="_blank">Download ZIP</a>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>[ LOG 008 ] Prophet Notes — Audio 001</strong></div>
+          <div class="muted">MP3 • 6:21</div>
+        </div>
+        <a class="btn" href="./drops/prophet-notes-001.mp3" target="_blank">Play / Download</a>
+      </div>
+    </div>
+
+    <div class="muted">Tip: upload new files to <code>/drops/</code> and just add another row.</div>
+  </main>
+</body>
+</html>
