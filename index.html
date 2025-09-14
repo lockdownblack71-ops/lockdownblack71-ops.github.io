@@ -11,7 +11,43 @@
       --card:rgba(255,255,255,.04); --glow:0 0 10px rgba(57,255,20,.75), 0 0 30px rgba(57,255,20,.35);
     }
     *{box-sizing:border-box} html,body{height:100%}
-    body{
+    body{<script>
+  // Step 1: Current month check
+  function currentYYYYMM(){
+    const d = new Date();
+    return d.getFullYear().toString() + String(d.getMonth()+1).padStart(2,"0");
+  }
+
+  // Step 2: Codes still valid this month (UNUSED ones only)
+  // 👉 You update this list manually whenever you issue/retire codes.
+  const ACTIVE_CODES = new Set([
+    "FLAME-202509-AX3F",
+    "FLAME-202509-Q7MN",
+    "WARRIOR-202509-K4ZA",
+    "WARRIOR-202509-PT8Q"
+    // add/remove as needed
+  ]);
+
+  // Step 3: Validation function
+  function validateCode(raw){
+    const code = (raw||"").trim().toUpperCase();
+    const yyyymm = currentYYYYMM();
+    const okMonth = code.includes("-"+yyyymm+"-");
+    const okList  = ACTIVE_CODES.has(code);
+    return okMonth && okList;
+  }
+
+  // Example of how you might use it
+  // document.getElementById("unlockBtn").onclick = ()=>{
+  //   const code = document.getElementById("codeInput").value;
+  //   if(validateCode(code)){
+  //     alert("✅ Code accepted: " + code);
+  //   } else {
+  //     alert("❌ Invalid or expired code.");
+  //   }
+  // }
+</script>
+
       margin:0; font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace; color:var(--fg);
       background:radial-gradient(1200px 900px at 80% -20%, rgba(0,231,255,.12), transparent 45%),
                  radial-gradient(1100px 800px at 15% 120%, rgba(57,255,20,.12), transparent 45%), var(--bg);
