@@ -5,173 +5,80 @@
   <title>Eternal Tribe // Access Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg:#0a0a0a; --fg:#e5ffe5; --accent:#00ffaa; --muted:#88ffcf; --warn:#ffcc00; --bad:#ff7575;
-      --card:#101010; --line:#1b1b1b;
-    }
-    * { box-sizing: border-box }
-    body {
-      margin:0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      background: radial-gradient(1000px 600px at 50% -10%, #072, transparent 50%), var(--bg);
-      color: var(--fg);
-    }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-    header { text-align:center; padding: 24px 0 8px; }
-    h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
-    p.sub { margin: 6px 0 0; color: var(--muted); }
-    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 18px; }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid var(--line); border-radius: 16px; padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .card h3 { margin: 0 0 6px; font-size: 20px; }
-    .pill { display:inline-block; padding: 4px 10px; border-radius: 999px; border:1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .btn {
-      display: inline-block; text-decoration:none; color:#053; background: var(--accent); border-radius: 12px; padding: 10px 14px; font-weight: 700;
-      margin-right: 8px; margin-top: 10px;
-    }
-    .btn.sec { background: #09f; color: #012; }
-    .btn.ghost { background: transparent; color: var(--muted); border:1px solid var(--line) }
-    code { background:#061; padding:2px 6px; border-radius:8px; }
-    input, button {
-      width:100%; padding:12px 14px; font-size:16px; border-radius:12px; border:1px solid var(--line);
-      background:#060; color:#eaffea; outline:none;
-    }
-    input::placeholder { color:#b7f2c8 }
-    .row { display:grid; grid-template-columns: 1fr auto; gap:10px; }
-    .msg { font-size:14px; margin-top:10px; min-height: 22px; }
-    .msg.ok { color: var(--accent); }
-    .msg.bad { color: var(--bad); }
-    .section-title { margin: 28px 0 10px; font-size: 18px; color: var(--muted); }
-    .small { color: #bde; font-size: 13px; }
-    footer { margin: 26px 0 8px; text-align:center; color:#9ad; font-size:12px; }
-    a { color: var(--muted); }
-    .hidden { display:none; }
+    :root { --bg:#0a0a0a; --fg:#e5ffe5; --accent:#00ffaa; --muted:#88ffcf; --bad:#ff7575; --line:#1b1b1b; }
+    body { margin:0; font-family:monospace; background:var(--bg); color:var(--fg); text-align:center; padding:30px; }
+    h1 { font-size:26px; margin-bottom:10px; }
+    .card { background:#111; border:1px solid var(--line); border-radius:12px; padding:18px; margin:14px auto; max-width:480px; }
+    input, button { padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--line); margin-top:8px; }
+    button { background:var(--accent); color:#000; font-weight:bold; cursor:pointer; }
+    .msg { margin-top:10px; font-size:14px; }
+    .msg.ok { color:var(--accent); }
+    .msg.bad { color:var(--bad); }
+    a.btn { display:inline-block; margin:6px; padding:10px 14px; border-radius:8px; background:var(--accent); color:#000; text-decoration:none; font-weight:bold; }
+    a.btn.ghost { background:transparent; border:1px solid var(--line); color:var(--muted); }
+    code { background:#060; padding:2px 6px; border-radius:6px; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>⚡ Eternal Tribe // Access Portal</h1>
-      <p class="sub">Enter with a code or pick a tier. Fast, simple, verified.</p>
-    </header>
+  <h1>⚡ Eternal Tribe // Access Portal ⚡</h1>
+  <p>Enter a code below, or join Discord to get one.</p>
 
-    <!-- CONFIG -->
-    <script>
-      const API_URL = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
-      const DISCORD_INVITE = "https://discord.gg/92sdve7x";
-      const WELCOME_CHANNEL_LINK = "https://discord.com/channels/1416479764990136512/1416479765556232254";
-      const TIERS = {
-        FLAME: {
-          title: "Flame",
-          blurb: "Early access & core perks.",
-          kofi: "http://ko-fi.com/theeternaltribe/tiers",
-          paypal: "https://www.paypal.com/paypalme/theeternaltribe"
-        },
-        WARRIOR: {
-          title: "Warrior",
-          blurb: "VIP perks & priority.",
-          kofi: "http://ko-fi.com/theeternaltribe/tiers",
-          paypal: "https://www.paypal.com/paypalme/theeternaltribe"
-        }
-      };
-      const LINKTREE = "https://ko-fi.com/theeternaltribe";
-    </script>
-
-    <!-- Step Cards -->
-    <div class="grid">
-      <div class="card">
-        <span class="pill">Step 1</span>
-        <h3>Pick a Tier (or use a code)</h3>
-        <p>Support on Ko-fi or PayPal & receive a code. Already got a code? Use the box below.</p>
-        <div>
-          <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">🔥 Flame — Ko-fi</a>
-          <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">🔥 Flame — PayPal</a>
-        </div>
-        <div>
-          <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">⚔️ Warrior — Ko-fi</a>
-          <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">⚔️ Warrior — PayPal</a>
-        </div>
-        <p class="small">After purchase, Ko-fi emails your code. PayPal: we’ll DM/email your code.</p>
-      </div>
-
-      <div class="card">
-        <span class="pill">Step 2</span>
-        <h3>Unlock with your Code</h3>
-        <div class="row">
-          <input id="codeInput" placeholder="Enter your code (e.g. 6B2EJDKJM3)" />
-          <button id="unlockBtn">Unlock</button>
-        </div>
-        <div id="unlockMsg" class="msg"></div>
-        <div id="unlockedActions" class="hidden">
-          <a class="btn" id="welcomeLink" target="_blank">🚪 Go to #welcome</a>
-          <a class="btn ghost" id="inviteLink" target="_blank">💬 Join Discord</a>
-          <p class="small">In Discord, run <code>!verify YOURCODE</code> in #welcome to claim your role.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="pill">Step 3</span>
-        <h3>Don’t have Discord?</h3>
-        <p>Download / sign up, then hit the Welcome link.</p>
-        <div>
-          <a class="btn" href="https://discord.com/download" target="_blank">⬇️ Download Discord</a>
-          <a class="btn ghost" href="https://discord.com/register" target="_blank">🆕 Create Account</a>
-        </div>
-      </div>
+  <div class="card">
+    <h3>Unlock with Code</h3>
+    <input id="codeInput" placeholder="Enter code (e.g. 6B2EJDKJM3)">
+    <button id="unlockBtn">Unlock</button>
+    <div id="unlockMsg" class="msg"></div>
+    <div id="unlockedActions">
+      <a class="btn" id="welcomeLink" target="_blank">🚪 Go to #welcome</a>
+      <a class="btn ghost" id="inviteLink" target="_blank">💬 Join Discord</a>
+      <p class="small">In Discord, run <code>!verify YOURCODE</code> in #welcome to claim your role.</p>
     </div>
+  </div>
 
-    <div class="section-title">Tier Details</div>
-    <div class="grid">
-      <div class="card">
-        <h3>🔥 Flame</h3>
-        <p>Early access, member badge, basic drops.</p>
-        <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">Ko-fi: Flame</a>
-        <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">PayPal: Flame</a>
-      </div>
-      <div class="card">
-        <h3>⚔️ Warrior</h3>
-        <p>VIP queue, priority drops, extras.</p>
-        <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">Ko-fi: Warrior</a>
-        <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">PayPal: Warrior</a>
-      </div>
-    </div>
-
-    <div class="section-title">Explore</div>
-    <div class="card">
-      <h3>🌐 Public Page</h3>
-      <p>Just want to look around? Visit our Ko-fi page:</p>
-      <a class="btn ghost" href="https://ko-fi.com/theeternaltribe" target="_blank">Visit Ko-fi Page</a>
-    </div>
-
-    <footer>build 922 • © Eternal Tribe</footer>
+  <div class="card">
+    <h3>Pick a Tier</h3>
+    <p>Support via Ko-fi or PayPal & receive your code.</p>
+    <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">🔥 Flame / ⚔️ Warrior — Ko-fi</a>
+    <a class="btn ghost" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">💲 PayPal</a>
+    <p><a href="https://ko-fi.com/theeternaltribe" target="_blank">👀 Browse our Ko-fi page</a></p>
   </div>
 
   <script>
+    const API_URL = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
+    const DISCORD_INVITE = "https://discord.gg/92sdve7x";
+    const WELCOME_CHANNEL_LINK = "https://discord.com/channels/1416479764990136512/1416479765556232254";
+
     document.getElementById("welcomeLink").href = WELCOME_CHANNEL_LINK;
     document.getElementById("inviteLink").href = DISCORD_INVITE;
 
     async function unlock() {
       const input = document.getElementById("codeInput");
       const msg = document.getElementById("unlockMsg");
-      const actions = document.getElementById("unlockedActions");
       const code = (input.value || "").trim();
-      actions.classList.add("hidden");
       msg.className = "msg"; msg.textContent = "Checking…";
+
       if (!code) { msg.classList.add("bad"); msg.textContent = "⚠️ Enter a code."; return; }
 
       try {
-        const r = await fetch(API_URL, {
+        // POST first
+        let r = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code })
         });
-        const data = await r.json();
+        if (!r.ok) throw new Error("POST failed");
+        let data = await r.json();
+
+        // Fallback: GET
+        if (!("ok" in data)) {
+          const g = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
+          data = await g.json();
+        }
+
         if (data.ok) {
           msg.classList.add("ok");
-          msg.innerHTML = `✅ Valid code accepted${data.tier ? ` <span class="pill">${data.tier}</span>` : ""}.<br>Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
-          actions.classList.remove("hidden");
+          msg.innerHTML = `✅ Valid code${data.tier ? ` <b>${data.tier}</b>` : ""}.<br>
+          Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
         } else if (data.error === "used_code") {
           msg.classList.add("bad"); msg.textContent = "⚠️ That code was already used.";
         } else if (data.error === "invalid_code") {
@@ -180,11 +87,26 @@
           msg.classList.add("bad"); msg.textContent = "⚠️ Error.";
         }
       } catch (e) {
-        msg.classList.add("bad"); msg.textContent = "⚠️ Network error.";
+        // GET fallback if POST errors
+        try {
+          const g = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
+          const data = await g.json();
+          if (data.ok) {
+            msg.classList.add("ok");
+            msg.innerHTML = `✅ Valid code${data.tier ? ` <b>${data.tier}</b>` : ""}.<br>
+            Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
+          } else {
+            msg.classList.add("bad"); msg.textContent = "❌ Invalid or used code.";
+          }
+        } catch {
+          msg.classList.add("bad");
+          msg.textContent = "⚠️ Network/CORS error. If you have a code, click Welcome and verify inside Discord.";
+        }
       }
     }
+
     document.getElementById("unlockBtn").addEventListener("click", unlock);
-    document.getElementById("codeInput").addEventListener("keydown", (e) => { if (e.key === "Enter") unlock(); });
+    document.getElementById("codeInput").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
   </script>
 </body>
 </html>
