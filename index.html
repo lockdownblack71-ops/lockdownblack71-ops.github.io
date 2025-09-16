@@ -8,15 +8,16 @@
     :root { --bg:#0a0a0a; --fg:#e5ffe5; --accent:#00ffaa; --muted:#88ffcf; --bad:#ff7575; --line:#1b1b1b; }
     body { margin:0; font-family:monospace; background:var(--bg); color:var(--fg); text-align:center; padding:30px; }
     h1 { font-size:26px; margin-bottom:10px; }
-    .card { background:#111; border:1px solid var(--line); border-radius:12px; padding:18px; margin:14px auto; max-width:480px; }
+    .card { background:#111; border:1px solid var(--line); border-radius:12px; padding:18px; margin:14px auto; max-width:520px; }
     input, button { padding:10px; font-size:16px; border-radius:8px; border:1px solid var(--line); margin-top:8px; }
     button { background:var(--accent); color:#000; font-weight:bold; cursor:pointer; }
-    .msg { margin-top:10px; font-size:14px; }
+    .msg { margin-top:10px; font-size:14px; min-height:22px; }
     .msg.ok { color:var(--accent); }
     .msg.bad { color:var(--bad); }
     a.btn { display:inline-block; margin:6px; padding:10px 14px; border-radius:8px; background:var(--accent); color:#000; text-decoration:none; font-weight:bold; }
     a.btn.ghost { background:transparent; border:1px solid var(--line); color:var(--muted); }
     code { background:#060; padding:2px 6px; border-radius:6px; }
+    .small { color:#b7f2c8; font-size:12px; }
   </style>
 </head>
 <body>
@@ -25,13 +26,13 @@
 
   <div class="card">
     <h3>Unlock with Code</h3>
-    <input id="codeInput" placeholder="Enter code (e.g. 6B2EJDKJM3)">
+    <input id="codeInput" placeholder="Enter code (e.g. 6B2EJDKJM3)" />
     <button id="unlockBtn">Unlock</button>
     <div id="unlockMsg" class="msg"></div>
-    <div id="unlockedActions">
+    <div id="actions">
       <a class="btn" id="welcomeLink" target="_blank">🚪 Go to #welcome</a>
       <a class="btn ghost" id="inviteLink" target="_blank">💬 Join Discord</a>
-      <p class="small">In Discord, run <code>!verify YOURCODE</code> in #welcome to claim your role.</p>
+      <p class="small">In Discord, type <code>!verify YOURCODE</code> in #welcome to claim your role.</p>
     </div>
   </div>
 
@@ -44,10 +45,12 @@
   </div>
 
   <script>
+    // Your live API + Discord links
     const API_URL = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
     const DISCORD_INVITE = "https://discord.gg/92sdve7x";
     const WELCOME_CHANNEL_LINK = "https://discord.com/channels/1416479764990136512/1416479765556232254";
 
+    // Set buttons
     document.getElementById("welcomeLink").href = WELCOME_CHANNEL_LINK;
     document.getElementById("inviteLink").href = DISCORD_INVITE;
 
@@ -55,12 +58,21 @@
       const input = document.getElementById("codeInput");
       const msg = document.getElementById("unlockMsg");
       const code = (input.value || "").trim();
-      msg.className = "msg"; msg.textContent = "Checking…";
 
+      msg.className = "msg";
       if (!code) { msg.classList.add("bad"); msg.textContent = "⚠️ Enter a code."; return; }
+      msg.textContent = "Checking…";
+
+      // Helper to render result
+      const showOK = (tierLabel) => {
+        msg.classList.add("ok");
+        msg.innerHTML = `✅ Valid code${tierLabel ? " <b>" + tierLabel + "</b>" : ""}.<br>
+        Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
+      };
+      const showBad = (t) => { msg.classList.add("bad"); msg.textContent = t; };
 
       try {
-        // POST first
+        // Try POST first
         let r = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -69,38 +81,26 @@
         if (!r.ok) throw new Error("POST failed");
         let data = await r.json();
 
-        // Fallback: GET
         if (!("ok" in data)) {
+          // Fallback: GET
           const g = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
           data = await g.json();
         }
 
-        if (data.ok) {
-          msg.classList.add("ok");
-          msg.innerHTML = `✅ Valid code${data.tier ? ` <b>${data.tier}</b>` : ""}.<br>
-          Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
-        } else if (data.error === "used_code") {
-          msg.classList.add("bad"); msg.textContent = "⚠️ That code was already used.";
-        } else if (data.error === "invalid_code") {
-          msg.classList.add("bad"); msg.textContent = "❌ Invalid code.";
-        } else {
-          msg.classList.add("bad"); msg.textContent = "⚠️ Error.";
-        }
+        if (data.ok) showOK(data.tier);
+        else if (data.error === "used_code") showBad("⚠️ That code was already used.");
+        else if (data.error === "invalid_code") showBad("❌ Invalid code.");
+        else showBad("⚠️ Error.");
       } catch (e) {
-        // GET fallback if POST errors
+        // Final fallback: GET
         try {
           const g = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
           const data = await g.json();
-          if (data.ok) {
-            msg.classList.add("ok");
-            msg.innerHTML = `✅ Valid code${data.tier ? ` <b>${data.tier}</b>` : ""}.<br>
-            Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
-          } else {
-            msg.classList.add("bad"); msg.textContent = "❌ Invalid or used code.";
-          }
+          if (data.ok) showOK(data.tier);
+          else if (data.error === "used_code") showBad("⚠️ That code was already used.");
+          else showBad("❌ Invalid code.");
         } catch {
-          msg.classList.add("bad");
-          msg.textContent = "⚠️ Network/CORS error. If you have a code, click Welcome and verify inside Discord.";
+          showBad("⚠️ Network/CORS error. If you have a code, click Welcome and verify inside Discord.");
         }
       }
     }
