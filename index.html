@@ -84,7 +84,49 @@
     .price{font-size:12px; color:#ffb84d}
   </style>
 </head>
-<body>
+<script>
+const API = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
+
+async function unlock() {
+  const el = document.querySelector("input"); // your code input
+  const msg = document.querySelector("#unlockMsg") || document.createElement("div");
+  msg.id = "unlockMsg";
+  if (!msg.parentNode) el.insertAdjacentElement("afterend", msg);
+
+  const code = (el.value || "").trim();
+  if (!code) { msg.textContent = "⚠️ Enter a code."; return; }
+  msg.textContent = "Checking…";
+
+  try {
+    const r = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code })
+    });
+    const data = await r.json();
+
+    if (data.ok) {
+      msg.innerHTML = `✅ Valid code for <b>${data.tier}</b>.<br>
+      Now run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
+    } else if (data.error === "used_code") {
+      msg.textContent = "⚠️ That code was already used.";
+    } else if (data.error === "invalid_code") {
+      msg.textContent = "❌ Invalid code.";
+    } else {
+      msg.textContent = "⚠️ Error, try again.";
+    }
+  } catch (e) {
+    msg.textContent = "⚠️ Network error.";
+  }
+}
+
+document.querySelector("button").addEventListener("click", unlock);
+document.querySelector("input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") unlock();
+});
+</script>
+
+  <body>
   <div class="pulse p1"></div><div class="pulse p2"></div>
 
   <main>
