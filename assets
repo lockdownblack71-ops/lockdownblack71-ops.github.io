@@ -1,1 +1,3 @@
-
+git add index.html assets/hero.jpg
+git commit -m "Add Eternal Tribe portal page"
+git push
