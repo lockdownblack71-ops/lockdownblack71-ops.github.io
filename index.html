@@ -1,249 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Eternal Tribe Terminal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <title>Eternal Tribe // Access Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{
-      --bg:#070a0d; --fg:#d8ffe1; --muted:#87f4a1;
-      --accent:#39ff14; --accent2:#00e7ff; --border:rgba(255,255,255,.12);
-      --card:rgba(255,255,255,.04); --glow:0 0 10px rgba(57,255,20,.75), 0 0 30px rgba(57,255,20,.35);
+    :root {
+      --bg:#0a0a0a; --fg:#e5ffe5; --accent:#00ffaa; --muted:#88ffcf; --warn:#ffcc00; --bad:#ff7575;
+      --card:#101010; --line:#1b1b1b;
     }
-    *{box-sizing:border-box} html,body{height:100%}
-    body{<script>
-  // Step 1: Current month check
-  function currentYYYYMM(){
-    const d = new Date();
-    return d.getFullYear().toString() + String(d.getMonth()+1).padStart(2,"0");
-  }
-
-  // Step 2: Codes still valid this month (UNUSED ones only)
-  // 👉 You update this list manually whenever you issue/retire codes.
-  const ACTIVE_CODES = new Set([
-    "FLAME-202509-AX3F",
-    "FLAME-202509-Q7MN",
-    "WARRIOR-202509-K4ZA",
-    "WARRIOR-202509-PT8Q"
-    // add/remove as needed
-  ]);
-
-  // Step 3: Validation function
-  function validateCode(raw){
-    const code = (raw||"").trim().toUpperCase();
-    const yyyymm = currentYYYYMM();
-    const okMonth = code.includes("-"+yyyymm+"-");
-    const okList  = ACTIVE_CODES.has(code);
-    return okMonth && okList;
-  }
-
-  // Example of how you might use it
-  // document.getElementById("unlockBtn").onclick = ()=>{
-  //   const code = document.getElementById("codeInput").value;
-  //   if(validateCode(code)){
-  //     alert("✅ Code accepted: " + code);
-  //   } else {
-  //     alert("❌ Invalid or expired code.");
-  //   }
-  // }
-</script>
-
-      margin:0; font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace; color:var(--fg);
-      background:radial-gradient(1200px 900px at 80% -20%, rgba(0,231,255,.12), transparent 45%),
-                 radial-gradient(1100px 800px at 15% 120%, rgba(57,255,20,.12), transparent 45%), var(--bg);
-      overflow-x:hidden;
+    * { box-sizing: border-box }
+    body {
+      margin:0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      background: radial-gradient(1000px 600px at 50% -10%, #072, transparent 50%), var(--bg);
+      color: var(--fg);
     }
-    .pulse{position:fixed; inset:-20%; pointer-events:none; filter:blur(40px); opacity:.25; animation:pulse 9s ease-in-out infinite}
-    .p1{background:radial-gradient(circle at 20% 30%, #00e7ff33, transparent 40%)}
-    .p2{background:radial-gradient(circle at 80% 70%, #39ff1426, transparent 40%); animation-delay:-4.5s}
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-    main{max-width:980px; margin:42px auto; padding:18px}
-    header{display:flex; align-items:center; gap:14px; margin-bottom:12px}
-    .logo{width:42px; height:42px; border-radius:10px; background:#0c1418 url('/assets/logo.png') center/cover no-repeat; box-shadow:var(--glow)}
-    h1{margin:0; font-size:28px; color:var(--accent); text-shadow:var(--glow); letter-spacing:.06em}
-    h2{margin:2px 0 0; font-size:14px; color:var(--muted); letter-spacing:.08em}
-    .hero{margin:16px 0 20px; padding:14px; border:1px solid var(--border); border-radius:12px; background:var(--card)}
-    .type{min-height:28px; font-size:18px}
-    .blink{display:inline-block; width:10px; height:1.1em; background:var(--accent); animation:blink 1.1s steps(1) infinite; vertical-align:-2px}
-    @keyframes blink{50%{opacity:.2}}
-    h3{margin:18px 0 10px; font-size:16px; color:var(--accent2)}
-    .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .card{border:1px solid var(--border); background:var(--card); border-radius:12px; padding:14px}
-    .card h4{margin:2px 0 8px; font-size:15px; color:#fff}
-    .btn{display:inline-block; padding:10px 14px; border-radius:10px; border:1px solid rgba(57,255,20,.5);
-         color:var(--fg); text-decoration:none; transition:.2s transform,.2s box-shadow; margin-right:8px; margin-top:8px}
-    .btn:hover{transform:translateY(-1px); box-shadow:var(--glow)}
-    .btn.outline{border-color:rgba(255,255,255,.25)}
-    .muted{color:var(--muted); font-size:12px}
-    .notice{border-left:3px solid var(--accent2); padding:8px 10px; margin-top:8px; background:var(--card); border-radius:6px}
-    .codebar{display:flex; gap:8px; margin:10px 0 8px}
-    input[type=text]{flex:1; padding:10px; border-radius:10px; border:1px solid var(--border); background:rgba(255,255,255,.03); color:var(--fg)}
-    .unlock{min-height:18px; color:#ffb84d}
-    .hidden{display:none}
-    footer{margin-top:24px; color:var(--muted); display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
-    .price{font-size:12px; color:#ffb84d}
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
+    header { text-align:center; padding: 24px 0 8px; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+    p.sub { margin: 6px 0 0; color: var(--muted); }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 18px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--line); border-radius: 16px; padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .card h3 { margin: 0 0 6px; font-size: 20px; }
+    .pill { display:inline-block; padding: 4px 10px; border-radius: 999px; border:1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .btn {
+      display: inline-block; text-decoration:none; color:#053; background: var(--accent); border-radius: 12px; padding: 10px 14px; font-weight: 700;
+      margin-right: 8px; margin-top: 10px;
+    }
+    .btn.sec { background: #09f; color: #012; }
+    .btn.ghost { background: transparent; color: var(--muted); border:1px solid var(--line) }
+    code { background:#061; padding:2px 6px; border-radius:8px; }
+    input, button {
+      width:100%; padding:12px 14px; font-size:16px; border-radius:12px; border:1px solid var(--line);
+      background:#060; color:#eaffea; outline:none;
+    }
+    input::placeholder { color:#b7f2c8 }
+    .row { display:grid; grid-template-columns: 1fr auto; gap:10px; }
+    .msg { font-size:14px; margin-top:10px; min-height: 22px; }
+    .msg.ok { color: var(--accent); }
+    .msg.bad { color: var(--bad); }
+    .section-title { margin: 28px 0 10px; font-size: 18px; color: var(--muted); }
+    .small { color: #bde; font-size: 13px; }
+    footer { margin: 26px 0 8px; text-align:center; color:#9ad; font-size:12px; }
+    a { color: var(--muted); }
+    .hidden { display:none; }
   </style>
 </head>
-<script>
-const API = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
-
-async function unlock() {
-  const el = document.querySelector("input"); // your code input
-  const msg = document.querySelector("#unlockMsg") || document.createElement("div");
-  msg.id = "unlockMsg";
-  if (!msg.parentNode) el.insertAdjacentElement("afterend", msg);
-
-  const code = (el.value || "").trim();
-  if (!code) { msg.textContent = "⚠️ Enter a code."; return; }
-  msg.textContent = "Checking…";
-
-  try {
-    const r = await fetch(API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code })
-    });
-    const data = await r.json();
-
-    if (data.ok) {
-      msg.innerHTML = `✅ Valid code for <b>${data.tier}</b>.<br>
-      Now run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
-    } else if (data.error === "used_code") {
-      msg.textContent = "⚠️ That code was already used.";
-    } else if (data.error === "invalid_code") {
-      msg.textContent = "❌ Invalid code.";
-    } else {
-      msg.textContent = "⚠️ Error, try again.";
-    }
-  } catch (e) {
-    msg.textContent = "⚠️ Network error.";
-  }
-}
-
-document.querySelector("button").addEventListener("click", unlock);
-document.querySelector("input").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") unlock();
-});
-</script>
-
-  <body>
-  <div class="pulse p1"></div><div class="pulse p2"></div>
-
-  <main>
+<body>
+  <div class="wrap">
     <header>
-      <div class="logo"></div>
-      <div>
-        <h1>Eternal Tribe // Terminal</h1>
-        <h2>Access Granted • Node ET-01</h2>
-      </div>
+      <h1>⚡ Eternal Tribe // Access Portal</h1>
+      <p class="sub">Enter with a code or pick a tier. Fast, simple, verified.</p>
     </header>
 
-    <section class="hero">
-      <div id="type" class="type"></div><span class="blink"></span>
-      <div class="notice">Support on PayPal → DM receipt → I send your <strong>access code</strong> → unlock your chamber below.</div>
-      <div class="codebar">
-        <input id="codeInput" type="text" placeholder="Enter code e.g. FLAME-001 / WARRIOR-001">
-        <a class="btn" id="codeBtn">Unlock</a>
-      </div>
-      <div id="unlockMsg" class="unlock"></div>
-    </section>
+    <!-- CONFIG -->
+    <script>
+      const API_URL = "https://theeternaltribe.theeternaltribe.repl.co/api/checkcode";
+      const DISCORD_INVITE = "https://discord.gg/92sdve7x";
+      const WELCOME_CHANNEL_LINK = "https://discord.com/channels/1416479764990136512/1416479765556232254";
+      const TIERS = {
+        FLAME: {
+          title: "Flame",
+          blurb: "Early access & core perks.",
+          kofi: "http://ko-fi.com/theeternaltribe/tiers",
+          paypal: "https://www.paypal.com/paypalme/theeternaltribe"
+        },
+        WARRIOR: {
+          title: "Warrior",
+          blurb: "VIP perks & priority.",
+          kofi: "http://ko-fi.com/theeternaltribe/tiers",
+          paypal: "https://www.paypal.com/paypalme/theeternaltribe"
+        }
+      };
+      const LINKTREE = "https://ko-fi.com/theeternaltribe";
+    </script>
 
-    <!-- ACCESS -->
-    <section>
-      <h3>Access Levels</h3>
-      <div class="grid">
-        <div class="card">
-          <h4>SPARK <span class="price">Free</span></h4>
-          <div class="muted">Public Discord + announcements</div>
-          <a class="btn" id="sparkPublic" target="_blank" rel="noopener">Join Spark (Free)</a>
-        </div>
-        <div class="card">
-          <h4>FLAME <span class="price">Pay what you can</span></h4>
-          <div class="muted">PDF scrolls, monthly picture pack, Flame chat</div>
-          <a class="btn outline" id="flamePay" target="_blank" rel="noopener">Support via PayPal</a>
-          <a class="btn" id="flameLink" target="_blank" rel="noopener">Open Flame (needs code)</a>
-        </div>
-        <div class="card">
-          <h4>WARRIOR <span class="price">Pay what you can</span></h4>
-          <div class="muted">VIP Discord + live session access</div>
-          <a class="btn outline" id="warriorPay" target="_blank" rel="noopener">Support via PayPal</a>
-          <a class="btn" id="warriorLink" target="_blank" rel="noopener">Enter Warrior (needs code)</a>
-        </div>
-      </div>
-      <div class="muted" style="margin-top:6px">
-        * Manual codes for now. Later we’ll swap to Stripe + auto Discord roles.
-      </div>
-    </section>
-
-    <!-- LOCKED CHAMBERS -->
-    <section id="flameCard" class="card hidden">
-      <h3>FLAME Chamber</h3>
-      <div class="muted">Exclusive Drops (PDFs, audio, pictures).</div>
-      <a class="btn" id="flameDrops" target="_blank">Go to Drops</a>
-      <a class="btn" id="flameChat"  target="_blank">Join Flame Chat</a>
-    </section>
-
-    <section id="warriorCard" class="card hidden">
-      <h3>WARRIOR Chamber</h3>
-      <div class="muted">VIP Discord + Live session access.</div>
-      <a class="btn" id="warriorVIP" target="_blank">Join VIP Discord</a>
-      <a class="btn" id="warriorLive" target="_blank">Live Session Room</a>
-    </section>
-
-    <!-- LOGS -->
-    <section>
-      <h3>System Logs</h3>
+    <!-- Step Cards -->
+    <div class="grid">
       <div class="card">
-        <div class="muted">[ LOG 011 ] The Body Is the Right Sign — <a href="drops.html" target="_blank">Open in Drops</a></div>
-        <div class="muted">[ LOG 010 ] Sophia’s Flame Restored — <a id="scrollLink" target="_blank">Open in Drops</a></div>
+        <span class="pill">Step 1</span>
+        <h3>Pick a Tier (or use a code)</h3>
+        <p>Support on Ko-fi or PayPal & receive a code. Already got a code? Use the box below.</p>
+        <div>
+          <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">🔥 Flame — Ko-fi</a>
+          <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">🔥 Flame — PayPal</a>
+        </div>
+        <div>
+          <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">⚔️ Warrior — Ko-fi</a>
+          <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">⚔️ Warrior — PayPal</a>
+        </div>
+        <p class="small">After purchase, Ko-fi emails your code. PayPal: we’ll DM/email your code.</p>
       </div>
-    </section>
 
-    <footer>
-      <div>© <span id="year"></span> Eternal Tribe. Independent Fan Terminal.</div>
-      <div class="muted">Powered by GitHub Pages.</div>
-    </footer>
-  </main>
+      <div class="card">
+        <span class="pill">Step 2</span>
+        <h3>Unlock with your Code</h3>
+        <div class="row">
+          <input id="codeInput" placeholder="Enter your code (e.g. 6B2EJDKJM3)" />
+          <button id="unlockBtn">Unlock</button>
+        </div>
+        <div id="unlockMsg" class="msg"></div>
+        <div id="unlockedActions" class="hidden">
+          <a class="btn" id="welcomeLink" target="_blank">🚪 Go to #welcome</a>
+          <a class="btn ghost" id="inviteLink" target="_blank">💬 Join Discord</a>
+          <p class="small">In Discord, run <code>!verify YOURCODE</code> in #welcome to claim your role.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="pill">Step 3</span>
+        <h3>Don’t have Discord?</h3>
+        <p>Download / sign up, then hit the Welcome link.</p>
+        <div>
+          <a class="btn" href="https://discord.com/download" target="_blank">⬇️ Download Discord</a>
+          <a class="btn ghost" href="https://discord.com/register" target="_blank">🆕 Create Account</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Tier Details</div>
+    <div class="grid">
+      <div class="card">
+        <h3>🔥 Flame</h3>
+        <p>Early access, member badge, basic drops.</p>
+        <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">Ko-fi: Flame</a>
+        <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">PayPal: Flame</a>
+      </div>
+      <div class="card">
+        <h3>⚔️ Warrior</h3>
+        <p>VIP queue, priority drops, extras.</p>
+        <a class="btn" href="http://ko-fi.com/theeternaltribe/tiers" target="_blank">Ko-fi: Warrior</a>
+        <a class="btn sec" href="https://www.paypal.com/paypalme/theeternaltribe" target="_blank">PayPal: Warrior</a>
+      </div>
+    </div>
+
+    <div class="section-title">Explore</div>
+    <div class="card">
+      <h3>🌐 Public Page</h3>
+      <p>Just want to look around? Visit our Ko-fi page:</p>
+      <a class="btn ghost" href="https://ko-fi.com/theeternaltribe" target="_blank">Visit Ko-fi Page</a>
+    </div>
+
+    <footer>build 922 • © Eternal Tribe</footer>
+  </div>
 
   <script>
-    // typing
-    const line="Welcome, warrior. Give what you can. Receive what you need. Use your code to unlock chambers.";
-    let i=0; const el=document.getElementById("type");
-    (function t(){el.textContent=line.slice(0,++i); if(i<line.length) setTimeout(t,22);} )();
+    document.getElementById("welcomeLink").href = WELCOME_CHANNEL_LINK;
+    document.getElementById("inviteLink").href = DISCORD_INVITE;
 
-    // LINKS
-    const DISCORD_MAIN = "https://discord.gg/SCUywcb4se";      // your new invite
-    const PAYPAL = "https://www.paypal.com/paypalme/theeternaltribe";
-    const LINKS = {
-      sparkPublic: DISCORD_MAIN,
-      flamePay: PAYPAL,
-      warriorPay: PAYPAL,
-      flameDrops: "drops.html",
-      flameChat:  DISCORD_MAIN,        // later: private channel invite
-      warriorVIP: DISCORD_MAIN,        // later: VIP-only invite
-      warriorLive:"#",                 // add Stage/Voice/Zoom link when live
-      flameLink: "drops.html"
-    };
-    const set=(id,u)=>{ const a=document.getElementById(id); if(a) a.href=u; };
-    Object.entries(LINKS).forEach(([k,v])=>set(k,v));
-    document.getElementById("year").textContent=new Date().getFullYear();
+    async function unlock() {
+      const input = document.getElementById("codeInput");
+      const msg = document.getElementById("unlockMsg");
+      const actions = document.getElementById("unlockedActions");
+      const code = (input.value || "").trim();
+      actions.classList.add("hidden");
+      msg.className = "msg"; msg.textContent = "Checking…";
+      if (!code) { msg.classList.add("bad"); msg.textContent = "⚠️ Enter a code."; return; }
 
-    // code gate (change codes anytime)
-    const CODES={"FLAME-001":"flameCard","WARRIOR-001":"warriorCard"};
-    const show=id=>document.getElementById(id)?.classList.remove("hidden");
-    document.getElementById("codeBtn").addEventListener("click",()=>{
-      const raw=(document.getElementById("codeInput").value||"").trim().toUpperCase();
-      const target=CODES[raw]; const msg=document.getElementById("unlockMsg");
-      ["flameCard","warriorCard"].forEach(id=>document.getElementById(id).classList.add("hidden"));
-      if(target){ show(target); msg.textContent="Access unlocked: "+raw; }
-      else{ msg.textContent="Invalid or expired code. DM receipt for a new code."; }
-    });
+      try {
+        const r = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code })
+        });
+        const data = await r.json();
+        if (data.ok) {
+          msg.classList.add("ok");
+          msg.innerHTML = `✅ Valid code accepted${data.tier ? ` <span class="pill">${data.tier}</span>` : ""}.<br>Next: click Welcome and run <code>!verify ${code.toUpperCase()}</code> in Discord.`;
+          actions.classList.remove("hidden");
+        } else if (data.error === "used_code") {
+          msg.classList.add("bad"); msg.textContent = "⚠️ That code was already used.";
+        } else if (data.error === "invalid_code") {
+          msg.classList.add("bad"); msg.textContent = "❌ Invalid code.";
+        } else {
+          msg.classList.add("bad"); msg.textContent = "⚠️ Error.";
+        }
+      } catch (e) {
+        msg.classList.add("bad"); msg.textContent = "⚠️ Network error.";
+      }
+    }
+    document.getElementById("unlockBtn").addEventListener("click", unlock);
+    document.getElementById("codeInput").addEventListener("keydown", (e) => { if (e.key === "Enter") unlock(); });
   </script>
 </body>
 </html>
-<div class="card" style="margin-top:20px;">
-  <h3>Enter Unlock Code</h3>
-  <input id="codeInput" type="text" placeholder="Enter your code" style="padding:8px;width:70%;">
-  <button id="unlockBtn" class="btn">Unlock</button>
-  <p id="unlockMsg" class="muted"></p>
-</div>
